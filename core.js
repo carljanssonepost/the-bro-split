@@ -21,3 +21,7 @@ export function suggestion(e,i,history){
  if(e.id==='bench'&&i===0){const prev=history.slice().reverse().find(h=>h.exercises.some(x=>x.id==='bench'));const p=prev?.exercises.find(x=>x.id==='bench');return r.kg===80&&Number(r.reps)>=9&&p?.quality&&!p.pain&&p.sets[0].done&&p.sets[0].kg===80&&Number(p.sets[0].reps)>=9?'Överväg 82,5 kg · kontrollera efterföljande set':'Behåll vikten · 80 × 9 krävs två pass i rad';}
  return r.kg===0?'Repsmål nått · öka tiden/reps manuellt':`Överväg ${String(r.kg+e.step).replace('.',',')} kg · bekräfta nästa repsmål`;
 }
+
+export function historyLabel(h){return h.imported ? `${h.label || 'Importerad historik'} · datum saknas` : (h.started && Number.isFinite(Date.parse(h.started)) ? new Date(h.started).toLocaleString('sv-SE') : 'Datum saknas');}
+export function lastResult(history,id,index){for(let n=history.length-1;n>=0;n--){const s=history[n].exercises.find(e=>e.id===id)?.sets[index];if(s?.done)return s;}return null;}
+export function resultLabel(e,s){return e.unit==='sek'?`${s.reps} sek`:`${s.kg} kg × ${s.reps}${e.id==='stepup'?' /ben':''}`;}
